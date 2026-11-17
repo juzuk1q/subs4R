@@ -101,10 +101,11 @@ type Price struct {
 }
 
 type PlanRef struct {
-	ServiceID string
-	PlanID    string
-	MSBigID   string // BigId для Microsoft Store API
-	SteamAppID int   // AppID для Steam Store API
+	ServiceID  string
+	PlanID     string
+	MSBigID    string // BigId для Microsoft Store API
+	SteamAppID int    // AppID для Steam Store API
+	AppleAppID int64  // AppID для Apple App Store Lookup / SSR API
 }
 
 type Provider interface {

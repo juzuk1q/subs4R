@@ -144,12 +144,30 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                   const status = row.statuses?.[c.code];
                   const isBest = row.best_country === c.code && status === 'available';
 
-                  if (status === 'not_available' || price === undefined) {
+                  if (status === 'not_available') {
                     return (
                       <td key={c.code} className="py-3 px-3 text-center">
                         <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-sans font-medium bg-slate-900/80 text-slate-500 border border-slate-800">
                           Не запущен
                         </span>
+                      </td>
+                    );
+                  }
+
+                  if (status === 'suspended') {
+                    return (
+                      <td key={c.code} className="py-3 px-3 text-center">
+                        <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-sans font-medium bg-rose-950/60 text-rose-400 border border-rose-800/50">
+                          Приостановлен
+                        </span>
+                      </td>
+                    );
+                  }
+
+                  if (price === undefined || price === null) {
+                    return (
+                      <td key={c.code} className="py-3 px-3 text-center">
+                        <span className="text-slate-600 text-xs">—</span>
                       </td>
                     );
                   }

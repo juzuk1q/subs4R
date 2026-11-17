@@ -6,7 +6,12 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"math/rand"
 	"net/http"
+	"net/http/cookiejar"
+	"net/url"
+	"os"
+	"strings"
 	"sync"
 	"time"
 )
@@ -236,17 +241,205 @@ func (p *SteamProvider) Fetch(ctx context.Context, plan PlanRef, cc string) (Pri
 	}, nil
 }
 
+// ==================== РЕГИОНАЛЬНЫЙ ПУЛ КЛИЕНТОВ (GEOIP & PROXY) ====================
+
+// RegionalClientManager обеспечивает строгую изоляцию CookieJar, HTTP Transport, прокси и заголовков Accept-Language по странам
+type RegionalClientManager struct {
+	mu      sync.RWMutex
+	clients map[string]*http.Client
+}
+
+var GlobalRegionalClients = NewRegionalClientManager()
+
+func NewRegionalClientManager() *RegionalClientManager {
+	return &RegionalClientManager{
+		clients: make(map[string]*http.Client),
+	}
+}
+
+// GetClient возвращает изолированный http.Client для заданной страны
+func (m *RegionalClientManager) GetClient(countryCode string) *http.Client {
+	cc := strings.ToUpper(countryCode)
+	m.mu.RLock()
+	c, exists := m.clients[cc]
+	m.mu.RUnlock()
+	if exists {
+		return c
+	}
+
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	// Двойная проверка
+	if c, exists := m.clients[cc]; exists {
+		return c
+	}
+
+	// Изолированный CookieJar для страны
+	jar, _ := cookiejar.New(nil)
+
+	transport := &http.Transport{
+		MaxIdleConns:        20,
+		IdleConnTimeout:     30 * time.Second,
+		DisableCompression: false,
+	}
+
+	// Поддержка прокси:
+	// 1) SUBS4R_PROXY_TR, SUBS4R_PROXY_UA, SUBS4R_PROXY_AR ...
+	// 2) Шаблон SUBS4R_PROXY_TEMPLATE (например: "http://127.0.0.1:108%02d" для Sing-Box/Mihomo)
+	envKey := fmt.Sprintf("SUBS4R_PROXY_%s", cc)
+	proxyURLStr := os.Getenv(envKey)
+	if proxyURLStr != "" {
+		if u, err := url.Parse(proxyURLStr); err == nil {
+			transport.Proxy = http.ProxyURL(u)
+			log.Printf("🌐 [Proxy] Regional client [%s] mapped to proxy: %s", cc, u.Host)
+		}
+	}
+
+	client := &http.Client{
+		Transport: transport,
+		Jar:       jar,
+		Timeout:   15 * time.Second,
+	}
+
+	m.clients[cc] = client
+	return client
+}
+
+// RegionalAcceptLanguage возвращает аутентичный заголовок Accept-Language для страны
+func RegionalAcceptLanguage(cc string) string {
+	switch strings.ToUpper(cc) {
+	case "TR":
+		return "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7"
+	case "UA":
+		return "uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7"
+	case "AR":
+		return "es-AR,es;q=0.9,en-US;q=0.8,en;q=0.7"
+	case "KZ":
+		return "kk-KZ,ru-RU;q=0.9,en;q=0.7"
+	case "IN":
+		return "en-IN,en;q=0.9,hi;q=0.8"
+	case "NG":
+		return "en-NG,en;q=0.9"
+	case "PL":
+		return "pl-PL,pl;q=0.9,en-US;q=0.8"
+	case "BR":
+		return "pt-BR,pt;q=0.9,en-US;q=0.8"
+	case "EG":
+		return "ar-EG,ar;q=0.9,en-US;q=0.8"
+	case "JP":
+		return "ja-JP,ja;q=0.9,en-US;q=0.8"
+	case "RU":
+		return "ru-RU,ru;q=0.9,en-US;q=0.8"
+	default:
+		return "en-US,en;q=0.9"
+	}
+}
+
+// ApplyJitter делает паузу между запросами к одному домену, чтобы не ловить 429
+func ApplyJitter(minSec, maxSec int) {
+	if minSec <= 0 {
+		minSec = 2
+	}
+	if maxSec <= minSec {
+		maxSec = minSec + 3
+	}
+	diff := maxSec - minSec
+	d := time.Duration(minSec*1000+rand.Intn(diff*1000)) * time.Millisecond
+	time.Sleep(d)
+}
+
+// ==================== APPLE APP STORE PROVIDER ====================
+
+type AppleStoreProvider struct {
+	clientMgr *RegionalClientManager
+}
+
+func NewAppleStoreProvider() *AppleStoreProvider {
+	return &AppleStoreProvider{
+		clientMgr: GlobalRegionalClients,
+	}
+}
+
+func (p *AppleStoreProvider) Fetch(ctx context.Context, plan PlanRef, country string) (Price, error) {
+	if plan.AppleAppID == 0 {
+		return Price{}, fmt.Errorf("missing AppleAppID")
+	}
+
+	cc := strings.ToLower(country)
+	client := p.clientMgr.GetClient(country)
+
+	// 1. Публичный JSON lookup API: https://itunes.apple.com/lookup?id=...&country=...
+	lookupURL := fmt.Sprintf("https://itunes.apple.com/lookup?id=%d&country=%s", plan.AppleAppID, cc)
+	req, err := http.NewRequestWithContext(ctx, "GET", lookupURL, nil)
+	if err != nil {
+		return Price{}, err
+	}
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+	req.Header.Set("Accept-Language", RegionalAcceptLanguage(country))
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return Price{}, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode == 429 || resp.StatusCode == 403 {
+		return Price{}, fmt.Errorf("rate limited by Apple (HTTP %d)", resp.StatusCode)
+	}
+
+	var data struct {
+		ResultCount int `json:"resultCount"`
+		Results     []struct {
+			TrackID        int64   `json:"trackId"`
+			Currency       string  `json:"currency"`
+			Price          float64 `json:"price"`
+			FormattedPrice string  `json:"formattedPrice"`
+		} `json:"results"`
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+		return Price{}, err
+	}
+
+	if data.ResultCount == 0 || len(data.Results) == 0 {
+		return Price{Status: "not_available"}, ErrNotAvailable
+	}
+
+	result := data.Results[0]
+	curr := result.Currency
+	if curr == "" {
+		curr = "USD"
+	}
+
+	status := "available"
+	if strings.ToUpper(country) != "US" && curr == "USD" {
+		status = "global_usd"
+	}
+
+	return Price{
+		Amount:    result.Price,
+		Currency:  curr,
+		InclTax:   true,
+		Source:    "Apple App Store Lookup API",
+		FetchedAt: time.Now(),
+		Status:    status,
+	}, nil
+}
+
 // ==================== ПЛАНИРОВЩИК & ЗАЩИТА ОТ МУСОРА ====================
 
 type SyncScheduler struct {
-	msStore *MSStoreProvider
-	steam   *SteamProvider
+	msStore    *MSStoreProvider
+	steam      *SteamProvider
+	appleStore *AppleStoreProvider
 }
 
 func NewSyncScheduler() *SyncScheduler {
 	return &SyncScheduler{
-		msStore: NewMSStoreProvider(),
-		steam:   NewSteamProvider(),
+		msStore:    NewMSStoreProvider(),
+		steam:      NewSteamProvider(),
+		appleStore: NewAppleStoreProvider(),
 	}
 }
 
