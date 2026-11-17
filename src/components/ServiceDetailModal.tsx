@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, ExternalLink, ShieldAlert, CheckCircle2, AlertTriangle, TrendingDown, Info, Activity } from 'lucide-react';
 import { ServiceLogo } from './ServiceLogo';
 import { Sparkline } from './Sparkline';
+import { Flag } from './Flag';
 import type { ServiceDetail, ServicePlan, PlanPrice } from '../types';
 
 interface ServiceDetailModalProps {
@@ -202,10 +203,8 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                             }`}
                           >
                             <td className="py-3 px-4 whitespace-nowrap">
-                              <div className="flex items-center gap-2">
-                                <span className="text-xl" role="img" aria-label={p.country_name}>
-                                  {p.flag}
-                                </span>
+                              <div className="flex items-center gap-2.5">
+                                <Flag emoji={p.flag} code={p.country_code} />
                                 <span className="font-medium text-slate-200">
                                   {p.country_name}
                                 </span>

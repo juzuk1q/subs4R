@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { MatrixRow } from '../types';
 import { ServiceLogo } from './ServiceLogo';
+import { Flag } from './Flag';
 import { RefreshCw } from 'lucide-react';
 
 interface MatrixViewProps {
@@ -107,8 +108,8 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
               <th className="py-3 px-4 min-w-[200px]">Сервис</th>
               {MATRIX_COUNTRIES.map((c) => (
                 <th key={c.code} className="py-3 px-3 text-center whitespace-nowrap">
-                  <div className="flex items-center justify-center gap-1">
-                    <span className="text-base">{c.flag}</span>
+                  <div className="flex items-center justify-center gap-1.5">
+                    <Flag emoji={c.flag} code={c.code} />
                     <span>{c.code}</span>
                   </div>
                   <div className="text-[10px] text-slate-400 font-normal">{c.name}</div>

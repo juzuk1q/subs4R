@@ -12,7 +12,26 @@ import { MatrixView } from './components/MatrixView';
 import { CalculatorView } from './components/CalculatorView';
 import { SuggestModal } from './components/SuggestModal';
 import { ServiceLogo } from './components/ServiceLogo';
+import { Flag } from './components/Flag';
 import type { ServiceSummary } from './types';
+
+const COUNTRY_NAME_TO_CODE: Record<string, string> = {
+  Nigeria: 'NG',
+  Turkey: 'TR',
+  Argentina: 'AR',
+  India: 'IN',
+  Kazakhstan: 'KZ',
+  Ukraine: 'UA',
+  Brazil: 'BR',
+  Poland: 'PL',
+  'United States': 'US',
+  Eurozone: 'EU',
+  'United Kingdom': 'GB',
+  Egypt: 'EG',
+  Philippines: 'PH',
+  Japan: 'JP',
+  Russia: 'RU',
+};
 
 const CATEGORIES = [
   { id: 'all', label: 'Все категории' },
@@ -256,7 +275,10 @@ export function App() {
 
                           <td className="py-3.5 px-4 whitespace-nowrap">
                             <div className="flex items-center gap-2">
-                              <span className="text-lg">{s.cheapest_flag}</span>
+                              <Flag
+                                emoji={s.cheapest_flag}
+                                code={COUNTRY_NAME_TO_CODE[s.cheapest_country] || 'US'}
+                              />
                               <span className="font-semibold text-slate-200 text-xs">
                                 {s.cheapest_country}
                               </span>
