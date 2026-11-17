@@ -6,13 +6,13 @@ import {
   Sparkles,
   ChevronRight,
 } from 'lucide-react';
-import { Navbar, CURRENCIES } from './components/Navbar';
-import { ServiceDetailModal } from './components/ServiceDetailModal';
-import { MatrixView } from './components/MatrixView';
-import { CalculatorView } from './components/CalculatorView';
-import { SuggestModal } from './components/SuggestModal';
-import { ServiceLogo } from './components/ServiceLogo';
-import { Flag } from './components/Flag';
+import { Navbar, CURRENCIES } from './components/layout/Navbar';
+import { ServiceDetailModal } from './components/modals/ServiceDetailModal';
+import { SuggestModal } from './components/modals/SuggestModal';
+import { MatrixView } from './views/MatrixView';
+import { CalculatorView } from './views/CalculatorView';
+import { ServiceLogo } from './components/ui/ServiceLogo';
+import { Flag } from './components/ui/Flag';
 import type { ServiceSummary } from './types';
 
 const COUNTRY_NAME_TO_CODE: Record<string, string> = {

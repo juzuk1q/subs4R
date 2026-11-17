@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Send, CheckCircle2 } from 'lucide-react';
-import type { ServiceSummary } from '../types';
+import type { ServiceSummary } from '../../types';
 
 interface SuggestModalProps {
   services: ServiceSummary[];

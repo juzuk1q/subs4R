@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { X, ExternalLink, ShieldAlert, CheckCircle2, AlertTriangle, TrendingDown, Info, Activity } from 'lucide-react';
-import { ServiceLogo } from './ServiceLogo';
-import { Sparkline } from './Sparkline';
-import { Flag } from './Flag';
-import type { ServiceDetail, ServicePlan, PlanPrice } from '../types';
+import { ServiceLogo } from '../ui/ServiceLogo';
+import { Sparkline } from '../ui/Sparkline';
+import { Flag } from '../ui/Flag';
+import type { ServiceDetail, ServicePlan, PlanPrice } from '../../types';
 
 interface ServiceDetailModalProps {
   serviceId: string | null;

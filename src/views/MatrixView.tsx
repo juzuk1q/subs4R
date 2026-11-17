@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { MatrixRow } from '../types';
-import { ServiceLogo } from './ServiceLogo';
-import { Flag } from './Flag';
+import { ServiceLogo } from '../components/ui/ServiceLogo';
+import { Flag } from '../components/ui/Flag';
 import { RefreshCw } from 'lucide-react';
 
 interface MatrixViewProps {

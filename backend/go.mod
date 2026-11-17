@@ -1,3 +1,3 @@
-module subdb-backend
+module subs4r
 
-go 1.27.0
+go 1.24

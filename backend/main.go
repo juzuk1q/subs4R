@@ -8,6 +8,7 @@ import (
 	"math"
 	"net/http"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 	"sync"
@@ -64,7 +65,7 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"status":          "ok",
-		"service":         "SubDB Go Backend",
+		"service":         "subs4r-server",
 		"version":         "2.0.0",
 		"currencies_count": ratesCount,
 		"last_rates_sync": lastRates,
@@ -516,15 +517,23 @@ func main() {
 	mux.HandleFunc("/api/sync", corsMiddleware(handleManualSync))
 
 	// Static files (dist if built)
-	fs := http.FileServer(http.Dir("../dist"))
+	distDir := "./dist"
+	if _, err := os.Stat(distDir); os.IsNotExist(err) {
+		if _, err := os.Stat("../dist"); err == nil {
+			distDir = "../dist"
+		}
+	}
+
+	fs := http.FileServer(http.Dir(distDir))
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, "/api/") {
 			http.NotFound(w, r)
 			return
 		}
-		path := "../dist" + r.URL.Path
-		if _, err := os.Stat(path); os.IsNotExist(err) {
-			http.ServeFile(w, r, "../dist/index.html")
+		cleanPath := filepath.Clean(r.URL.Path)
+		targetFile := filepath.Join(distDir, cleanPath)
+		if fi, err := os.Stat(targetFile); os.IsNotExist(err) || fi.IsDir() {
+			http.ServeFile(w, r, filepath.Join(distDir, "index.html"))
 			return
 		}
 		fs.ServeHTTP(w, r)
@@ -535,6 +544,6 @@ func main() {
 		Handler: mux,
 	}
 
-	fmt.Printf("🚀 SubDB Go Backend v2.0 running on http://localhost:%s\n", port)
+	fmt.Printf("🚀 subs4r-server running on http://localhost:%s\n", port)
 	log.Fatal(server.ListenAndServe())
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { ServiceSummary } from '../types';
 import { Calculator, Check } from 'lucide-react';
-import { ServiceLogo } from './ServiceLogo';
+import { ServiceLogo } from '../components/ui/ServiceLogo';
 
 interface CalculatorViewProps {
   services: ServiceSummary[];
