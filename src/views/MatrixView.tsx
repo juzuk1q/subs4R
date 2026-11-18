@@ -19,6 +19,7 @@ const MATRIX_COUNTRIES = [
   { code: 'AR', name: 'Аргентина', flag: '🇦🇷' },
   { code: 'PL', name: 'Польша', flag: '🇵🇱' },
   { code: 'US', name: 'США (База)', flag: '🇺🇸' },
+  { code: 'RU', name: 'Россия', flag: '🇷🇺' },
 ];
 
 export const MatrixView: React.FC<MatrixViewProps> = ({
@@ -140,59 +141,96 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                 </td>
 
                 {MATRIX_COUNTRIES.map((c) => {
-                  const price = row.prices?.[c.code];
-                  const status = row.statuses?.[c.code];
-                  const isBest = row.best_country === c.code && status === 'available';
+                  const price = row.prices?.[c.code] ?? 0;
+                  const status = row.statuses?.[c.code] || 'available';
+                  const source = row.sources?.[c.code];
+                  const avail = row.availables?.[c.code] !== false;
+                  const isBest = row.best_country === c.code && (status === 'available' || status === 'global_usd') && avail;
 
-                  if (status === 'not_available') {
-                    return (
-                      <td key={c.code} className="py-3 px-3 text-center">
-                        <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-sans font-medium bg-slate-900/80 text-slate-500 border border-slate-800">
-                          Не запущен
-                        </span>
-                      </td>
-                    );
-                  }
+                  const renderSourceBadge = () => {
+                    switch (source) {
+                      case 'usd_flat':
+                        return (
+                          <span
+                            title="Источник: USD Flat (глобальная цена в USD)"
+                            className="text-[9px] font-sans px-1 rounded bg-indigo-950/70 text-indigo-300 border border-indigo-800/40"
+                          >
+                            🌐 Global $
+                          </span>
+                        );
+                      case 'community':
+                        return (
+                          <span
+                            title="Источник: Community (подтвержденные данные сообщества)"
+                            className="text-[9px] font-sans px-1 rounded bg-amber-950/70 text-amber-300 border border-amber-800/40"
+                          >
+                            👥 Сообщество
+                          </span>
+                        );
+                      case 'archive':
+                        return (
+                          <span
+                            title="Источник: Archive (снимок Wayback Machine archive.org)"
+                            className="text-[9px] font-sans px-1 rounded bg-slate-800 text-slate-300 border border-slate-700"
+                          >
+                            📜 Архив
+                          </span>
+                        );
+                      case 'estimated':
+                        return (
+                          <span
+                            title="Источник: Estimated (расчетная оценка по паритету доходов PPP)"
+                            className="text-[9px] font-sans px-1 rounded bg-sky-950/70 text-sky-300 border border-sky-800/40"
+                          >
+                            📊 Оценка
+                          </span>
+                        );
+                      case 'store':
+                        return (
+                          <span
+                            title="Источник: App Store / Steam / Google Play"
+                            className="text-[9px] font-sans px-1 rounded bg-emerald-950/60 text-emerald-400 border border-emerald-800/40"
+                          >
+                            🛒 Store
+                          </span>
+                        );
+                      default:
+                        return null;
+                    }
+                  };
 
-                  if (status === 'suspended') {
+                  if (status === 'suspended' || !avail) {
                     return (
-                      <td key={c.code} className="py-3 px-3 text-center">
-                        <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-sans font-medium bg-rose-950/60 text-rose-400 border border-rose-800/50">
-                          Приостановлен
-                        </span>
-                      </td>
-                    );
-                  }
-
-                  if (price === undefined || price === null) {
-                    return (
-                      <td key={c.code} className="py-3 px-3 text-center">
-                        <span className="text-slate-600 text-xs">—</span>
-                      </td>
-                    );
-                  }
-
-                  if (status === 'global_usd') {
-                    return (
-                      <td key={c.code} className="py-3 px-3 text-center whitespace-nowrap">
-                        <div className="flex flex-col items-center">
-                          <span className="font-semibold text-indigo-300">
+                      <td key={c.code} className="py-2 px-2 text-center whitespace-nowrap bg-rose-950/10">
+                        <div className="flex flex-col items-center gap-0.5">
+                          <span className="text-slate-400 line-through text-xs font-mono">
                             {price.toFixed(2)} {currencySymbol}
                           </span>
-                          <span className="text-[9px] font-sans px-1 rounded bg-indigo-950/70 text-indigo-400 border border-indigo-800/40 mt-0.5">
-                            Global $
-                          </span>
+                          <div className="flex items-center gap-1">
+                            <span className="px-1 py-0.2 rounded text-[9px] font-sans font-medium bg-rose-950/80 text-rose-300 border border-rose-800/60">
+                              🔒 Ушел
+                            </span>
+                            {renderSourceBadge()}
+                          </div>
                         </div>
                       </td>
                     );
                   }
 
-                  if (status === 'suspended') {
+                  if (status === 'not_available') {
                     return (
-                      <td key={c.code} className="py-3 px-3 text-center">
-                        <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-sans font-medium bg-rose-950/60 text-rose-400 border border-rose-800/50">
-                          Приостановлен
-                        </span>
+                      <td key={c.code} className="py-2 px-2 text-center whitespace-nowrap bg-slate-900/30">
+                        <div className="flex flex-col items-center gap-0.5">
+                          <span className="text-slate-400 text-xs font-mono">
+                            ~{price.toFixed(2)} {currencySymbol}
+                          </span>
+                          <div className="flex items-center gap-1">
+                            <span className="px-1 py-0.2 rounded text-[9px] font-sans font-medium bg-slate-900 text-slate-400 border border-slate-800">
+                              🚫 Не запущен
+                            </span>
+                            {renderSourceBadge()}
+                          </div>
+                        </div>
                       </td>
                     );
                   }
@@ -200,11 +238,16 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                   return (
                     <td
                       key={c.code}
-                      className={`py-3 px-3 text-center whitespace-nowrap transition ${
-                        isBest ? 'bg-emerald-950/40 text-emerald-300 font-bold' : 'text-slate-300'
+                      className={`py-2 px-2 text-center whitespace-nowrap transition ${
+                        isBest ? 'bg-emerald-950/40 text-emerald-300 font-bold' : 'text-slate-200'
                       }`}
                     >
-                      {price.toFixed(2)} {currencySymbol}
+                      <div className="flex flex-col items-center gap-0.5">
+                        <span className="font-mono text-xs">
+                          {price.toFixed(2)} {currencySymbol}
+                        </span>
+                        {renderSourceBadge()}
+                      </div>
                     </td>
                   );
                 })}

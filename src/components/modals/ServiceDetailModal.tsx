@@ -180,6 +180,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                       <tr className="border-b border-slate-800 bg-[#18202d] text-xs font-semibold text-slate-400 uppercase tracking-wider">
                         <th className="py-3 px-4">Страна</th>
                         <th className="py-3 px-4">Статус</th>
+                        <th className="py-3 px-4">Источник</th>
                         <th className="py-3 px-4">Оригинал</th>
                         <th className="py-3 px-4">В {currency}</th>
                         <th className="py-3 px-4">Выгода</th>
@@ -190,10 +191,48 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                     </thead>
                     <tbody className="divide-y divide-slate-800/60 font-sans text-xs">
                       {currentPlan?.prices.map((p, idx) => {
-                        const isCheapest = idx === 0 && p.status === 'available';
+                        const isCheapest = idx === 0 && (p.status === 'available' || p.status === 'global_usd') && p.available !== false;
                         const isUS = p.country_code === 'US';
-                        const isNotAvail = p.status === 'not_available';
+                        const isNotAvail = p.status === 'not_available' || p.available === false;
+                        const isSuspended = p.status === 'suspended';
                         const isGlobal = p.status === 'global_usd';
+
+                        const renderSourcePill = () => {
+                          const tag = (() => {
+                            switch (p.source) {
+                              case 'official':
+                                return <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-950/80 text-emerald-300 border border-emerald-800/60">✓ Official</span>;
+                              case 'store':
+                                return <span className="px-1.5 py-0.5 rounded text-[10px] bg-sky-950/80 text-sky-300 border border-sky-800/60">🛒 Store</span>;
+                              case 'usd_flat':
+                                return <span className="px-1.5 py-0.5 rounded text-[10px] bg-indigo-950/80 text-indigo-300 border border-indigo-800/60">🌐 USD Flat</span>;
+                              case 'community':
+                                return <span className="px-1.5 py-0.5 rounded text-[10px] bg-amber-950/80 text-amber-300 border border-amber-800/60">👥 Community</span>;
+                              case 'archive':
+                                return <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-800 text-slate-300 border border-slate-700">📜 Archive</span>;
+                              case 'estimated':
+                                return <span className="px-1.5 py-0.5 rounded text-[10px] bg-purple-950/80 text-purple-300 border border-purple-800/60">📊 Estimated</span>;
+                              default:
+                                return <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-800 text-slate-400">{p.source || 'Curated'}</span>;
+                            }
+                          })();
+
+                          if (p.source_url) {
+                            return (
+                              <a
+                                href={p.source_url}
+                                target="_blank"
+                                rel="noreferrer"
+                                title={`Источник: ${p.source_url} (Дата: ${p.source_date || 'н/д'})`}
+                                className="inline-flex items-center gap-1 hover:opacity-80 transition"
+                              >
+                                {tag}
+                                <ExternalLink className="w-2.5 h-2.5 text-slate-500" />
+                              </a>
+                            );
+                          }
+                          return tag;
+                        };
 
                         return (
                           <tr
@@ -217,17 +256,17 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                             </td>
 
                             <td className="py-3 px-4 whitespace-nowrap">
-                              {isNotAvail ? (
+                              {isSuspended ? (
+                                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-950/80 text-rose-300 border border-rose-800/50">
+                                  🔒 {p.status_label || 'Приостановлен'}
+                                </span>
+                              ) : isNotAvail ? (
                                 <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-400 border border-slate-700">
-                                  🚫 Не запущен
+                                  🚫 {p.status_label || 'Не запущен'}
                                 </span>
                               ) : isGlobal ? (
                                 <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-indigo-950/80 text-indigo-300 border border-indigo-800/50">
                                   🌐 Global $
-                                </span>
-                              ) : p.status === 'suspended' ? (
-                                <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-950/80 text-rose-300 border border-rose-800/50">
-                                  🔒 Приостановлен
                                 </span>
                               ) : (
                                 <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-950/60 text-emerald-300 border border-emerald-800/40">
@@ -236,33 +275,29 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
                               )}
                             </td>
 
+                            <td className="py-3 px-4 whitespace-nowrap">
+                              {renderSourcePill()}
+                            </td>
+
                             <td className="py-3 px-4 font-mono text-slate-300 whitespace-nowrap">
-                              {isNotAvail ? (
-                                <span className="text-slate-600">—</span>
-                              ) : (
-                                <span>{p.original_price.toLocaleString()} {p.symbol}</span>
-                              )}
+                              <span className={isSuspended ? 'line-through text-slate-500' : ''}>
+                                {p.original_price.toLocaleString()} {p.symbol}
+                              </span>
                             </td>
 
                             <td className="py-3 px-4 whitespace-nowrap">
-                              {isNotAvail ? (
-                                <span className="text-slate-600">—</span>
-                              ) : (
-                                <div>
-                                  <span className="font-mono font-bold text-white text-sm">
-                                    {p.target_price.toFixed(2)} {currencySymbol}
-                                  </span>
-                                  <span className="text-[11px] text-slate-400 ml-1 font-mono">
-                                    (~${p.converted_price_usd.toFixed(2)})
-                                  </span>
-                                </div>
-                              )}
+                              <div>
+                                <span className={`font-mono font-bold text-sm ${isSuspended ? 'line-through text-slate-500' : 'text-white'}`}>
+                                  {p.target_price.toFixed(2)} {currencySymbol}
+                                </span>
+                                <span className="text-[11px] text-slate-400 ml-1 font-mono">
+                                  (~${p.converted_price_usd.toFixed(2)})
+                                </span>
+                              </div>
                             </td>
 
                             <td className="py-3 px-4 whitespace-nowrap">
-                              {isNotAvail ? (
-                                <span className="text-slate-600">—</span>
-                              ) : isUS ? (
+                              {isUS ? (
                                 <span className="text-slate-400 font-mono">База (0%)</span>
                               ) : p.discount_percent > 0 ? (
                                 <span className="inline-flex items-center px-2 py-0.5 rounded font-mono font-bold text-xs bg-[#5c7e10] text-[#a4d007] border border-[#759e14]">

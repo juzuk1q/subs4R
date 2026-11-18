@@ -522,6 +522,45 @@ func applyPriceUpdate(serviceID, planID, countryCode string, price Price) {
 	}
 }
 
+// Запускает синхронизацию для конкретного сервиса
+func (s *SyncScheduler) RunSyncService(ctx context.Context, serviceID string) {
+	log.Printf("🔄 Syncing single service: %s", serviceID)
+	switch serviceID {
+	case "xbox-game-pass":
+		gamePassMarkets := []string{"TR", "IN", "BR", "PL", "US", "KZ", "UA"}
+		for _, market := range gamePassMarkets {
+			p, err := s.msStore.Fetch(ctx, PlanRef{
+				ServiceID: "xbox-game-pass",
+				PlanID:    "ultimate",
+				MSBigID:   "CFQ7TTC0KHS0",
+			}, market)
+			if err != nil {
+				log.Printf("MS Store [%s]: %v", market, err)
+				continue
+			}
+			applyPriceUpdate("xbox-game-pass", "ultimate", market, p)
+			time.Sleep(300 * time.Millisecond)
+		}
+	case "steam-ea-play":
+		steamMarkets := []string{"KZ", "UA", "TR", "US", "PL"}
+		for _, cc := range steamMarkets {
+			p, err := s.steam.Fetch(ctx, PlanRef{
+				ServiceID:  "steam-ea-play",
+				PlanID:     "monthly",
+				SteamAppID: 1289670,
+			}, cc)
+			if err != nil {
+				log.Printf("Steam [%s]: %v", cc, err)
+				continue
+			}
+			applyPriceUpdate("steam-ea-play", "monthly", cc, p)
+			time.Sleep(400 * time.Millisecond)
+		}
+	default:
+		log.Printf("No automated API provider registered for %s (uses curated waterfall resolver)", serviceID)
+	}
+}
+
 // Запускает синхронизацию для провайдеров
 func (s *SyncScheduler) RunSync(ctx context.Context) {
 	log.Println("🔄 Starting pricing provider sync cycle...")

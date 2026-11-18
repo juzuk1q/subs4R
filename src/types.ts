@@ -23,9 +23,12 @@ export interface PlanPrice {
   status?: 'available' | 'not_available' | 'global_usd' | 'suspended';
   status_label?: string;
   incl_tax?: boolean;
-  source?: string;
+  source?: 'official' | 'store' | 'usd_flat' | 'community' | 'archive' | 'estimated' | string;
+  source_url?: string;
+  source_date?: string;
   fetched_at?: string;
   needs_review?: boolean;
+  available?: boolean;
 }
 
 export interface ServicePlan {
@@ -71,6 +74,8 @@ export interface MatrixRow {
   icon: string;
   prices: Record<string, number>;
   statuses: Record<string, string>;
+  sources?: Record<string, string>;
+  availables?: Record<string, boolean>;
   best_country: string;
   max_discount: number;
 }

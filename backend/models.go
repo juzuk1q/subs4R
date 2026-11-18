@@ -31,15 +31,18 @@ type PlanPrice struct {
 	TargetPrice       float64   `json:"target_price"`
 	TargetCurrency    string    `json:"target_currency"`
 	DiscountPercent   float64   `json:"discount_percent"`   // относительно US
-	PaymentDifficulty string    `json:"payment_difficulty"` // easy, medium, hard
+	PaymentDifficulty string    `json:"payment_difficulty"` // easy, medium, hard, impossible
 	PaymentNotes      string    `json:"payment_notes"`
 	PriceHistory      []float64 `json:"price_history"` // последние месяцы в USD
 	Status            string    `json:"status"`        // "available", "not_available", "global_usd", "suspended"
 	StatusLabel       string    `json:"status_label"`  // Человекочитаемый статус
 	InclTax           bool      `json:"incl_tax"`
-	Source            string    `json:"source"`
+	Source            string    `json:"source"`         // "official", "store", "usd_flat", "community", "archive", "estimated"
+	SourceURL         string    `json:"source_url"`     // URL источника цены
+	SourceDate        string    `json:"source_date"`    // Дата источника (YYYY-MM-DD)
 	FetchedAt         string    `json:"fetched_at"`
 	NeedsReview       bool      `json:"needs_review"`
+	Available         bool      `json:"available"`      // true даже для estimated, false только если вообще не запущен
 }
 
 type ServicePlan struct {

@@ -1,0 +1,861 @@
+{
+  "total_services": 43,
+  "total_prices": 675,
+  "source_distribution": {
+    "official": 411,
+    "store": 39,
+    "usd_flat": 176,
+    "community": 3,
+    "archive": 28,
+    "estimated": 18
+  },
+  "archive_count": 28,
+  "estimated_count": 18,
+  "needs_review_count": 70,
+  "archive_entries": [
+    {
+      "service": "spotify",
+      "plan": "individual",
+      "country": "RU",
+      "amount": 169.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "spotify",
+      "plan": "family",
+      "country": "RU",
+      "amount": 269.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "soundcloud",
+      "plan": "goplus",
+      "country": "RU",
+      "amount": 169.0,
+      "currency": "RUB",
+      "date": "2022-01-01"
+    },
+    {
+      "service": "deezer",
+      "plan": "premium",
+      "country": "RU",
+      "amount": 169.0,
+      "currency": "RUB",
+      "date": "2022-01-10"
+    },
+    {
+      "service": "tidal",
+      "plan": "individual",
+      "country": "TR",
+      "amount": 39.99,
+      "currency": "TRY",
+      "date": "2022-08-01"
+    },
+    {
+      "service": "tidal",
+      "plan": "individual",
+      "country": "RU",
+      "amount": 9.99,
+      "currency": "USD",
+      "date": "2022-01-01"
+    },
+    {
+      "service": "youtube-premium",
+      "plan": "individual",
+      "country": "RU",
+      "amount": 199.0,
+      "currency": "RUB",
+      "date": "2022-02-20"
+    },
+    {
+      "service": "youtube-premium",
+      "plan": "family",
+      "country": "RU",
+      "amount": 299.0,
+      "currency": "RUB",
+      "date": "2022-02-20"
+    },
+    {
+      "service": "netflix",
+      "plan": "standard",
+      "country": "RU",
+      "amount": 599.0,
+      "currency": "RUB",
+      "date": "2022-02-15"
+    },
+    {
+      "service": "crunchyroll",
+      "plan": "mega-fan",
+      "country": "RU",
+      "amount": 299.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "disney-plus",
+      "plan": "premium",
+      "country": "RU",
+      "amount": 399.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "max-hbo",
+      "plan": "standard",
+      "country": "RU",
+      "amount": 599.0,
+      "currency": "RUB",
+      "date": "2022-01-01"
+    },
+    {
+      "service": "playstation-plus",
+      "plan": "deluxe-monthly",
+      "country": "RU",
+      "amount": 529.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "xbox-game-pass",
+      "plan": "ultimate",
+      "country": "RU",
+      "amount": 899.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "steam-ea-play",
+      "plan": "monthly",
+      "country": "RU",
+      "amount": 299.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "nintendo-switch-online",
+      "plan": "individual-year",
+      "country": "RU",
+      "amount": 1399.0,
+      "currency": "RUB",
+      "date": "2022-02-10"
+    },
+    {
+      "service": "adobe-creative-cloud",
+      "plan": "all-apps",
+      "country": "RU",
+      "amount": 3200.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "canva-pro",
+      "plan": "pro-monthly",
+      "country": "RU",
+      "amount": 499.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "microsoft-365",
+      "plan": "personal-monthly",
+      "country": "RU",
+      "amount": 269.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "duolingo-super",
+      "plan": "super-monthly",
+      "country": "RU",
+      "amount": 299.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "discord-nitro",
+      "plan": "nitro-full",
+      "country": "RU",
+      "amount": 499.0,
+      "currency": "RUB",
+      "date": "2024-09-01"
+    },
+    {
+      "service": "notion-plus",
+      "plan": "plus-monthly",
+      "country": "RU",
+      "amount": 10.0,
+      "currency": "USD",
+      "date": "2024-08-01"
+    },
+    {
+      "service": "nordvpn",
+      "plan": "2-year",
+      "country": "RU",
+      "amount": 249.0,
+      "currency": "RUB",
+      "date": "2022-01-01"
+    },
+    {
+      "service": "surfshark-vpn",
+      "plan": "2-year",
+      "country": "RU",
+      "amount": 199.0,
+      "currency": "RUB",
+      "date": "2022-01-01"
+    },
+    {
+      "service": "jetbrains-all-products",
+      "plan": "individual-monthly",
+      "country": "RU",
+      "amount": 1490.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "tradingview",
+      "plan": "essential-monthly",
+      "country": "RU",
+      "amount": 899.0,
+      "currency": "RUB",
+      "date": "2022-02-01"
+    },
+    {
+      "service": "1password",
+      "plan": "individual",
+      "country": "RU",
+      "amount": 2.99,
+      "currency": "USD",
+      "date": "2022-03-01"
+    },
+    {
+      "service": "tinder-gold",
+      "plan": "gold-monthly",
+      "country": "RU",
+      "amount": 499.0,
+      "currency": "RUB",
+      "date": "2023-05-01"
+    }
+  ],
+  "estimated_entries": [
+    {
+      "service": "disney-plus",
+      "plan": "premium",
+      "country": "NG",
+      "amount": 2500.0,
+      "currency": "NGN"
+    },
+    {
+      "service": "disney-plus",
+      "plan": "premium",
+      "country": "KZ",
+      "amount": 5.49,
+      "currency": "USD"
+    },
+    {
+      "service": "disney-plus",
+      "plan": "premium",
+      "country": "UA",
+      "amount": 4.99,
+      "currency": "USD"
+    },
+    {
+      "service": "max-hbo",
+      "plan": "standard",
+      "country": "TR",
+      "amount": 99.99,
+      "currency": "TRY"
+    },
+    {
+      "service": "max-hbo",
+      "plan": "standard",
+      "country": "NG",
+      "amount": 3500.0,
+      "currency": "NGN"
+    },
+    {
+      "service": "max-hbo",
+      "plan": "standard",
+      "country": "IN",
+      "amount": 499.0,
+      "currency": "INR"
+    },
+    {
+      "service": "max-hbo",
+      "plan": "standard",
+      "country": "KZ",
+      "amount": 7.49,
+      "currency": "USD"
+    },
+    {
+      "service": "max-hbo",
+      "plan": "standard",
+      "country": "UA",
+      "amount": 6.99,
+      "currency": "USD"
+    },
+    {
+      "service": "max-hbo",
+      "plan": "standard",
+      "country": "EG",
+      "amount": 129.99,
+      "currency": "EGP"
+    },
+    {
+      "service": "playstation-plus",
+      "plan": "deluxe-monthly",
+      "country": "NG",
+      "amount": 8500.0,
+      "currency": "NGN"
+    },
+    {
+      "service": "playstation-plus",
+      "plan": "deluxe-monthly",
+      "country": "KZ",
+      "amount": 6500.0,
+      "currency": "KZT"
+    },
+    {
+      "service": "nintendo-switch-online",
+      "plan": "individual-year",
+      "country": "TR",
+      "amount": 349.0,
+      "currency": "TRY"
+    },
+    {
+      "service": "nintendo-switch-online",
+      "plan": "individual-year",
+      "country": "NG",
+      "amount": 7500.0,
+      "currency": "NGN"
+    },
+    {
+      "service": "nintendo-switch-online",
+      "plan": "individual-year",
+      "country": "IN",
+      "amount": 799.0,
+      "currency": "INR"
+    },
+    {
+      "service": "nintendo-switch-online",
+      "plan": "individual-year",
+      "country": "KZ",
+      "amount": 4900.0,
+      "currency": "KZT"
+    },
+    {
+      "service": "nintendo-switch-online",
+      "plan": "individual-year",
+      "country": "UA",
+      "amount": 399.0,
+      "currency": "UAH"
+    },
+    {
+      "service": "nintendo-switch-online",
+      "plan": "individual-year",
+      "country": "EG",
+      "amount": 19.99,
+      "currency": "USD"
+    },
+    {
+      "service": "nintendo-switch-online",
+      "plan": "individual-year",
+      "country": "PH",
+      "amount": 599.0,
+      "currency": "PHP"
+    }
+  ],
+  "needs_review_entries": [
+    {
+      "service": "spotify",
+      "country": "TR",
+      "price_usd": 1.74,
+      "us_price": 11.99,
+      "source": "official"
+    },
+    {
+      "service": "spotify",
+      "country": "NG",
+      "price_usd": 0.82,
+      "us_price": 11.99,
+      "source": "official"
+    },
+    {
+      "service": "spotify",
+      "country": "IN",
+      "price_usd": 1.4,
+      "us_price": 11.99,
+      "source": "official"
+    },
+    {
+      "service": "spotify",
+      "country": "EG",
+      "price_usd": 1.84,
+      "us_price": 11.99,
+      "source": "official"
+    },
+    {
+      "service": "spotify",
+      "country": "RU",
+      "price_usd": 1.76,
+      "us_price": 11.99,
+      "source": "archive"
+    },
+    {
+      "service": "spotify",
+      "country": "TR",
+      "price_usd": 2.9,
+      "us_price": 19.99,
+      "source": "official"
+    },
+    {
+      "service": "spotify",
+      "country": "NG",
+      "price_usd": 1.32,
+      "us_price": 19.99,
+      "source": "official"
+    },
+    {
+      "service": "spotify",
+      "country": "IN",
+      "price_usd": 2.11,
+      "us_price": 19.99,
+      "source": "official"
+    },
+    {
+      "service": "spotify",
+      "country": "EG",
+      "price_usd": 3.06,
+      "us_price": 19.99,
+      "source": "official"
+    },
+    {
+      "service": "spotify",
+      "country": "RU",
+      "price_usd": 2.8,
+      "us_price": 19.99,
+      "source": "archive"
+    },
+    {
+      "service": "apple-music",
+      "country": "TR",
+      "price_usd": 1.16,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "apple-music",
+      "country": "NG",
+      "price_usd": 0.63,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "apple-music",
+      "country": "IN",
+      "price_usd": 1.17,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "apple-music",
+      "country": "EG",
+      "price_usd": 1.63,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "apple-music",
+      "country": "RU",
+      "price_usd": 1.76,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "soundcloud",
+      "country": "NG",
+      "price_usd": 1.39,
+      "us_price": 9.99,
+      "source": "store"
+    },
+    {
+      "service": "soundcloud",
+      "country": "IN",
+      "price_usd": 1.76,
+      "us_price": 9.99,
+      "source": "store"
+    },
+    {
+      "service": "soundcloud",
+      "country": "RU",
+      "price_usd": 1.76,
+      "us_price": 9.99,
+      "source": "archive"
+    },
+    {
+      "service": "deezer",
+      "country": "TR",
+      "price_usd": 1.25,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "deezer",
+      "country": "NG",
+      "price_usd": 0.76,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "deezer",
+      "country": "IN",
+      "price_usd": 1.4,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "deezer",
+      "country": "EG",
+      "price_usd": 1.84,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "deezer",
+      "country": "RU",
+      "price_usd": 1.76,
+      "us_price": 10.99,
+      "source": "archive"
+    },
+    {
+      "service": "tidal",
+      "country": "TR",
+      "price_usd": 1.16,
+      "us_price": 10.99,
+      "source": "archive"
+    },
+    {
+      "service": "tidal",
+      "country": "NG",
+      "price_usd": 0.76,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "tidal",
+      "country": "AR",
+      "price_usd": 2.0,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "tidal",
+      "country": "IN",
+      "price_usd": 1.76,
+      "us_price": 10.99,
+      "source": "community"
+    },
+    {
+      "service": "tidal",
+      "country": "EG",
+      "price_usd": 1.84,
+      "us_price": 10.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "TR",
+      "price_usd": 2.32,
+      "us_price": 13.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "NG",
+      "price_usd": 1.07,
+      "us_price": 13.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "IN",
+      "price_usd": 1.76,
+      "us_price": 13.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "UA",
+      "price_usd": 2.4,
+      "us_price": 13.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "EG",
+      "price_usd": 1.84,
+      "us_price": 13.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "PH",
+      "price_usd": 2.72,
+      "us_price": 13.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "RU",
+      "price_usd": 2.07,
+      "us_price": 13.99,
+      "source": "archive"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "NG",
+      "price_usd": 2.02,
+      "us_price": 22.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "IN",
+      "price_usd": 3.53,
+      "us_price": 22.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "UA",
+      "price_usd": 3.61,
+      "us_price": 22.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "EG",
+      "price_usd": 3.06,
+      "us_price": 22.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "PH",
+      "price_usd": 4.09,
+      "us_price": 22.99,
+      "source": "official"
+    },
+    {
+      "service": "youtube-premium",
+      "country": "RU",
+      "price_usd": 3.11,
+      "us_price": 22.99,
+      "source": "archive"
+    },
+    {
+      "service": "netflix",
+      "country": "NG",
+      "price_usd": 2.52,
+      "us_price": 15.49,
+      "source": "official"
+    },
+    {
+      "service": "crunchyroll",
+      "country": "TR",
+      "price_usd": 1.9,
+      "us_price": 9.99,
+      "source": "official"
+    },
+    {
+      "service": "crunchyroll",
+      "country": "NG",
+      "price_usd": 0.95,
+      "us_price": 9.99,
+      "source": "official"
+    },
+    {
+      "service": "crunchyroll",
+      "country": "IN",
+      "price_usd": 1.17,
+      "us_price": 9.99,
+      "source": "official"
+    },
+    {
+      "service": "crunchyroll",
+      "country": "EG",
+      "price_usd": 1.43,
+      "us_price": 9.99,
+      "source": "official"
+    },
+    {
+      "service": "disney-plus",
+      "country": "NG",
+      "price_usd": 1.57,
+      "us_price": 13.99,
+      "source": "estimated"
+    },
+    {
+      "service": "max-hbo",
+      "country": "TR",
+      "price_usd": 2.9,
+      "us_price": 16.99,
+      "source": "estimated"
+    },
+    {
+      "service": "max-hbo",
+      "country": "NG",
+      "price_usd": 2.21,
+      "us_price": 16.99,
+      "source": "estimated"
+    },
+    {
+      "service": "max-hbo",
+      "country": "EG",
+      "price_usd": 2.65,
+      "us_price": 16.99,
+      "source": "estimated"
+    },
+    {
+      "service": "apple-tv",
+      "country": "TR",
+      "price_usd": 1.74,
+      "us_price": 9.99,
+      "source": "official"
+    },
+    {
+      "service": "apple-tv",
+      "country": "NG",
+      "price_usd": 0.88,
+      "us_price": 9.99,
+      "source": "official"
+    },
+    {
+      "service": "apple-tv",
+      "country": "IN",
+      "price_usd": 1.17,
+      "us_price": 9.99,
+      "source": "official"
+    },
+    {
+      "service": "apple-tv",
+      "country": "EG",
+      "price_usd": 1.84,
+      "us_price": 9.99,
+      "source": "official"
+    },
+    {
+      "service": "xbox-game-pass",
+      "country": "NG",
+      "price_usd": 2.21,
+      "us_price": 19.99,
+      "source": "official"
+    },
+    {
+      "service": "adobe-creative-cloud",
+      "country": "NG",
+      "price_usd": 9.45,
+      "us_price": 54.99,
+      "source": "official"
+    },
+    {
+      "service": "canva-pro",
+      "country": "TR",
+      "price_usd": 2.46,
+      "us_price": 12.99,
+      "source": "official"
+    },
+    {
+      "service": "canva-pro",
+      "country": "NG",
+      "price_usd": 1.76,
+      "us_price": 12.99,
+      "source": "official"
+    },
+    {
+      "service": "duolingo-super",
+      "country": "TR",
+      "price_usd": 1.45,
+      "us_price": 12.99,
+      "source": "store"
+    },
+    {
+      "service": "duolingo-super",
+      "country": "NG",
+      "price_usd": 1.13,
+      "us_price": 12.99,
+      "source": "store"
+    },
+    {
+      "service": "duolingo-super",
+      "country": "AR",
+      "price_usd": 2.5,
+      "us_price": 12.99,
+      "source": "store"
+    },
+    {
+      "service": "duolingo-super",
+      "country": "IN",
+      "price_usd": 2.35,
+      "us_price": 12.99,
+      "source": "store"
+    },
+    {
+      "service": "duolingo-super",
+      "country": "EG",
+      "price_usd": 1.84,
+      "us_price": 12.99,
+      "source": "store"
+    },
+    {
+      "service": "telegram-premium",
+      "country": "NG",
+      "price_usd": 0.95,
+      "us_price": 4.99,
+      "source": "official"
+    },
+    {
+      "service": "discord-nitro",
+      "country": "NG",
+      "price_usd": 1.57,
+      "us_price": 9.99,
+      "source": "official"
+    },
+    {
+      "service": "icloud-plus",
+      "country": "NG",
+      "price_usd": 1.83,
+      "us_price": 9.99,
+      "source": "official"
+    },
+    {
+      "service": "tinder-gold",
+      "country": "TR",
+      "price_usd": 4.35,
+      "us_price": 24.99,
+      "source": "official"
+    },
+    {
+      "service": "tinder-gold",
+      "country": "NG",
+      "price_usd": 2.02,
+      "us_price": 24.99,
+      "source": "official"
+    },
+    {
+      "service": "tinder-gold",
+      "country": "AR",
+      "price_usd": 3.0,
+      "us_price": 24.99,
+      "source": "official"
+    },
+    {
+      "service": "tinder-gold",
+      "country": "EG",
+      "price_usd": 4.08,
+      "us_price": 24.99,
+      "source": "official"
+    }
+  ]
+}

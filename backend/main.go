@@ -360,7 +360,9 @@ type MatrixRow struct {
 	Category    string             `json:"category"`
 	Icon        string             `json:"icon"`
 	Prices      map[string]float64 `json:"prices"`
-	Statuses    map[string]string  `json:"statuses"` // CountryCode -> "available", "not_available", "global_usd"
+	Statuses    map[string]string  `json:"statuses"`   // CountryCode -> "available", "not_available", "global_usd", "suspended"
+	Sources     map[string]string  `json:"sources"`    // CountryCode -> "official", "store", "usd_flat", "community", "archive", "estimated"
+	Availables  map[string]bool    `json:"availables"` // CountryCode -> true/false
 	BestCountry string             `json:"best_country"`
 	MaxDiscount float64            `json:"max_discount"`
 }
@@ -386,6 +388,8 @@ func handleMatrix(w http.ResponseWriter, r *http.Request) {
 			Icon:        s.Icon,
 			Prices:      make(map[string]float64),
 			Statuses:    make(map[string]string),
+			Sources:     make(map[string]string),
+			Availables:  make(map[string]bool),
 		}
 
 		if len(s.Plans) > 0 {
@@ -417,8 +421,10 @@ func handleMatrix(w http.ResponseWriter, r *http.Request) {
 					status = "available"
 				}
 				row.Statuses[p.CountryCode] = status
+				row.Sources[p.CountryCode] = p.Source
+				row.Availables[p.CountryCode] = p.Available
 
-				if status == "available" && usd < cheapestUSD && usd > 0 {
+				if (status == "available" || status == "global_usd") && p.Available && usd < cheapestUSD && usd > 0 {
 					cheapestUSD = usd
 					bestCountry = p.CountryCode
 				}
@@ -465,15 +471,27 @@ func handleManualSync(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	serviceID := strings.TrimSpace(r.URL.Query().Get("service"))
+
 	go func() {
 		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 		defer cancel()
-		scheduler.RunSync(ctx)
+		if serviceID != "" {
+			scheduler.RunSyncService(ctx, serviceID)
+		} else {
+			scheduler.RunSync(ctx)
+		}
 	}()
+
+	msg := "Фоновая синхронизация запущена для всех сервисов."
+	if serviceID != "" {
+		msg = fmt.Sprintf("Фоновая синхронизация запущена для сервиса: %s", serviceID)
+	}
 
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"success": true,
-		"message": "Фоновая синхронизация запущена.",
+		"message": msg,
+		"service": serviceID,
 	})
 }
 

@@ -38,3 +38,5 @@ subdb-server.exe
 # Dumps & temporary datasets
 ms_tr.json
 *.tmp
+__pycache__/
+*.pyc
